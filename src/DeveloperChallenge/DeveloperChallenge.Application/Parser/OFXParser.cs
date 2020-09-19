@@ -8,7 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace DeveloperChallenge.Application
+namespace DeveloperChallenge.Application.Parser
 {
     public class OFXParser
     {

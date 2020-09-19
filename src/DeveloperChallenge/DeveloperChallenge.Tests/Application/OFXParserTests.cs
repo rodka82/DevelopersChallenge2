@@ -1,4 +1,5 @@
 ﻿using DeveloperChallenge.Application;
+using DeveloperChallenge.Application.Parser;
 using DeveloperChallenge.Domain.Entities;
 using DeveloperChallenge.Tests.Utils;
 using Microsoft.DotNet.PlatformAbstractions;
