@@ -12,7 +12,7 @@ using Xunit;
 
 namespace DeveloperChallenge.Tests.Application
 {
-    public class OFXParserTests
+    public class OFXParserTests : TestBase
     {
         [Fact]
         public void ShouldConvertToList()
@@ -45,11 +45,6 @@ namespace DeveloperChallenge.Tests.Application
             var parser = new OFXParser();
             var amount = parser.Parse(GetDummyDataFile()).First().Amount;
             Assert.True(amount != 0);
-        }
-
-        private string GetDummyDataFile()
-        {
-            return $"{TestFolderFinder.GetTestDataFolder("Application\\DummyData")}\\extrato1.ofx";
         }
     }
 }

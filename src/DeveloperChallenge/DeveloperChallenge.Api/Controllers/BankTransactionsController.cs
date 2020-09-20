@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using DeveloperChallenge.Application.Services.Interfaces;
 using DeveloperChallenge.Tests.Utils;
@@ -15,24 +16,18 @@ namespace DeveloperChallenge.Api.Controllers
     {
         
         private readonly IBankTransactionService _transactionService;
+        private readonly IFileService _fileService;
 
-        public BankTransactionsController(IBankTransactionService transactionService)
+        public BankTransactionsController(IBankTransactionService transactionService, IFileService fileService)
         {
             _transactionService = transactionService;
+            _fileService = fileService;
         }
 
         [HttpGet("get")]
         public IActionResult Get()
         {
-            try
-            {
-                _transactionService.(files, "ReceivedFiles");
-                return Ok(new { files.Count });
-            }
-            catch (Exception exception)
-            {
-                return BadRequest($"Error: {exception.Message}");
-            }
+            return Ok();
         }
 
         [HttpPost("save")]
@@ -40,8 +35,14 @@ namespace DeveloperChallenge.Api.Controllers
         {
             try
             {
-                _transactionService.SaveBankTransactions(files, "ReceivedFiles");
-                return Ok(new { files.Count });
+                var fileLocations = _fileService.Upload(files, "ReceivedFiles");
+                var transactions = _transactionService.Parse(fileLocations);
+                var savedTransactions = _transactionService.SaveBankTransactions(transactions);
+
+                if (savedTransactions.Count > 0)
+                    return new OkObjectResult(savedTransactions);
+                else
+                    return Ok($"Warning: No transactions were saved");
             }
             catch (Exception exception)
             {

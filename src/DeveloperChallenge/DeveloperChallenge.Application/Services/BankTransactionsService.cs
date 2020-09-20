@@ -16,7 +16,7 @@ namespace DeveloperChallenge.Application.Services
     {
         private readonly IOFXParser _parser;
         private readonly IFileService _fileService;
-        private readonly IBankTransactionRepository _repository;
+        public readonly IBankTransactionRepository _repository;
 
         public BankTransactionsService(IOFXParser parser, IFileService fileService, IBankTransactionRepository repository)
         {
@@ -30,20 +30,27 @@ namespace DeveloperChallenge.Application.Services
             return _repository.GetAll();
         }
 
-        public void SaveBankTransactions(List<IFormFile> files, string directory)
+        public List<BankTransaction> SaveBankTransactions(List<BankTransaction> bankTransactions)
         {
-            var uploadedFilesLocations = _fileService.Upload(files, directory);
-            var transactionsToSave = MergeWithExistingTransactions(uploadedFilesLocations);
-            _repository.BulkAdd(transactionsToSave);
+            var transactionsToSave = MergeWithExistingTransactions(bankTransactions);
+            if(transactionsToSave.Count > 0)
+                _repository.BulkAdd(transactionsToSave);
+
+            return transactionsToSave;
         }
 
-        private List<BankTransaction> MergeWithExistingTransactions(List<string> uploadedFilesLocations)
+        public List<BankTransaction> Parse(List<string> uploadedFilesLocations)
         {
             var incomingTransactions = new List<BankTransaction>();
 
             foreach (var fileLocation in uploadedFilesLocations)
                 incomingTransactions.Union(_parser.Parse(fileLocation));
 
+            return incomingTransactions;
+        }
+
+        private List<BankTransaction> MergeWithExistingTransactions(List<BankTransaction> incomingTransactions)
+        {
             var dataBaseTransactions = _repository.GetAll();
 
             var transactionsToSave = dataBaseTransactions

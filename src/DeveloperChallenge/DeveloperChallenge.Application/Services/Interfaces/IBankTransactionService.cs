@@ -8,7 +8,8 @@ namespace DeveloperChallenge.Application.Services.Interfaces
 {
     public interface IBankTransactionService
     {
-        void SaveBankTransactions(List<IFormFile> files, string directory);
+        List<BankTransaction> SaveBankTransactions(List<BankTransaction> bankTransactions);
+        List<BankTransaction> Parse(List<string> fileLocations);
         List<BankTransaction> Get();
     }
 }

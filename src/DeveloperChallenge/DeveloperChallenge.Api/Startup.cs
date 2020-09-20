@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using DeveloperChallenge.Api.Extensions;
 using DeveloperChallenge.Application.Parser;
 using DeveloperChallenge.Application.Parser.Interfaces;
 using DeveloperChallenge.Application.Services;
