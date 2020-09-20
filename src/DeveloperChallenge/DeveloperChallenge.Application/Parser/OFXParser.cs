@@ -29,7 +29,7 @@ namespace DeveloperChallenge.Application.Parser
 
         private bool TryGenerateBankTransaction(string transaction, out BankTransaction bankTransaction)
         {
-            if (transaction.Replace(System.Environment.NewLine, "") != "")
+            if (HasValidContent(transaction))
             {
                 bankTransaction = new BankTransaction
                 {
@@ -42,6 +42,11 @@ namespace DeveloperChallenge.Application.Parser
             }
             bankTransaction = null;
             return false;
+        }
+
+        private bool HasValidContent(string transaction)
+        {
+            return transaction.Replace("\r\n", string.Empty).Replace("\n", string.Empty) != "";
         }
 
         private BankTransactionType GetType(string transaction)
