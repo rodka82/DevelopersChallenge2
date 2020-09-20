@@ -1,6 +1,7 @@
 ﻿using DeveloperChallenge.Domain.Entities;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Infra.Repositories.Interfaces
@@ -10,7 +11,7 @@ namespace Infra.Repositories.Interfaces
         void BulkAdd(List<BankTransaction> bankTransactions);
         void Add(BankTransaction bankTransaction);
         void Delete(int id);
-        List<BankTransaction> GetAll();
+        IQueryable<BankTransaction> GetAll();
         List<BankTransaction> GetByDate(DateTime date);
         List<BankTransaction> GetByDescription(string description);
     }
