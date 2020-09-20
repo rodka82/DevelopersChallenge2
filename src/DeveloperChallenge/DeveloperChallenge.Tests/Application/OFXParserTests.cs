@@ -18,7 +18,7 @@ namespace DeveloperChallenge.Tests.Application
         public void ShouldConvertToList()
         {
             var parser = new OFXParser();
-            var list = parser.ConvertToList(GetDummyDataFile());
+            var list = parser.Parse(GetDummyDataFile());
             Assert.True(list is List<BankTransaction>);
         }
 
@@ -26,7 +26,7 @@ namespace DeveloperChallenge.Tests.Application
         public void ShouldReadOnlyTheNodeContent()
         {
             var parser = new OFXParser();
-            var transaction = parser.ConvertToList(GetDummyDataFile()).First();
+            var transaction = parser.Parse(GetDummyDataFile()).First();
             Assert.True(transaction.Description.IndexOf("<MEMO>") < 0);
         }
 
@@ -35,7 +35,7 @@ namespace DeveloperChallenge.Tests.Application
         {
             var parser = new OFXParser();
             var wrongDateTime = new DateTime(1, 1, 1, 0, 0, 0);
-            var dateTime = parser.ConvertToList(GetDummyDataFile()).First().Date;
+            var dateTime = parser.Parse(GetDummyDataFile()).First().Date;
             Assert.False(dateTime == wrongDateTime);
         }
 
@@ -43,7 +43,7 @@ namespace DeveloperChallenge.Tests.Application
         public void ShouldReadAmoutCorrectly()
         {
             var parser = new OFXParser();
-            var amount = parser.ConvertToList(GetDummyDataFile()).First().Amount;
+            var amount = parser.Parse(GetDummyDataFile()).First().Amount;
             Assert.True(amount != 0);
         }
 
