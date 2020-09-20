@@ -27,7 +27,7 @@ namespace DeveloperChallenge.Application.Services
 
         public List<BankTransaction> Get()
         {
-            return _repository.GetAll();
+            return _repository.GetAll().ToList();
         }
 
         public List<BankTransaction> SaveBankTransactions(List<BankTransaction> bankTransactions)
@@ -44,21 +44,23 @@ namespace DeveloperChallenge.Application.Services
             var incomingTransactions = new List<BankTransaction>();
 
             foreach (var fileLocation in uploadedFilesLocations)
-                incomingTransactions.Union(_parser.Parse(fileLocation));
+                incomingTransactions = incomingTransactions.Concat(_parser.Parse(fileLocation)).ToList();
 
             return incomingTransactions;
         }
 
         private List<BankTransaction> MergeWithExistingTransactions(List<BankTransaction> incomingTransactions)
         {
-            var dataBaseTransactions = _repository.GetAll();
-
-            var transactionsToSave = dataBaseTransactions
-                .Union(incomingTransactions, new BankTransactionComparer())
-                .Where(t => t.Id == 0)
-                .ToList();
-
+            var dataBaseTransactions = _repository.GetAll().ToList();
+            var transactionsToSave = MergeTransactions(incomingTransactions, dataBaseTransactions).Where(t => t.Id == 0).ToList();
             return transactionsToSave;
+        }
+
+        private static List<BankTransaction> MergeTransactions(List<BankTransaction> firstTransactionList, List<BankTransaction> secondTransactionList)
+        {
+            return secondTransactionList
+                .Union(firstTransactionList, new BankTransactionComparer())
+                .ToList();
         }
     }
 }
