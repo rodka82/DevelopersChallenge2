@@ -1,5 +1,6 @@
 ﻿using DeveloperChallenge.Application.Exceptions;
 using DeveloperChallenge.Application.Helpers;
+using DeveloperChallenge.Application.Parser.Interfaces;
 using DeveloperChallenge.Domain.Entities;
 using DeveloperChallenge.Domain.Enums;
 using System;
@@ -10,9 +11,9 @@ using System.Text.RegularExpressions;
 
 namespace DeveloperChallenge.Application.Parser
 {
-    public class OFXParser
+    public class OFXParser : IOFXParser
     {
-        public List<BankTransaction> ConvertToList(string ofxFilePath)
+        public List<BankTransaction> Parse(string ofxFilePath)
         {
             var transactionsValues = GetTransactionsValues(ofxFilePath);
             var bankTransactions = new List<BankTransaction>();
