@@ -31,7 +31,7 @@ namespace DeveloperChallenge.Api.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(_transactionService.Get().Select(t => _mapper.Map<BankTransaction, BankTransactionDTO>(t)));
+            return Ok(_transactionService.Get().OrderBy(t => t.Date).Select(t => _mapper.Map<BankTransaction, BankTransactionDTO>(t)));
         }
 
         [HttpPost]
@@ -44,9 +44,9 @@ namespace DeveloperChallenge.Api.Controllers
                 var savedTransactions = _transactionService.SaveBankTransactions(transactions);
 
                 if (savedTransactions.Count > 0)
-                    return new OkObjectResult(savedTransactions.Select(t => _mapper.Map<BankTransaction, BankTransactionDTO>(t)));
+                    return CreatedAtAction("Get", savedTransactions.Select(t => _mapper.Map<BankTransaction, BankTransactionDTO>(t)));
                 else
-                    return Ok($"Warning: No transactions were saved");
+                    return StatusCode(StatusCodes.Status304NotModified,"Nenhuma transação foi salva");
             }
             catch (Exception exception)
             {
