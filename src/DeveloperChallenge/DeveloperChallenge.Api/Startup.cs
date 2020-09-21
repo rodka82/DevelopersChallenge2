@@ -42,7 +42,7 @@ namespace DeveloperChallenge.Api
             services.AddControllers();
             services.AddScoped<IFileService, FileService>();
             services.AddScoped<IBankTransactionService, BankTransactionsService>();
-            services.AddTransient<IBankTransactionRepository, BankTransactionRepository>();
+            services.AddScoped<IBankTransactionRepository, BankTransactionRepository>();
             services.AddScoped<IOFXParser, OFXParser>();
             services.AddScoped<DbContext, NiboContext>();
 
