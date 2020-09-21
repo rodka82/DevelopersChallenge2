@@ -24,9 +24,11 @@
               "projects/app/src/assets"
             ],
             "styles": [
+              "node_modules/bootstrap/dist/css/bootstrap.css",
               "projects/app/src/styles.css"
+              
             ],
-            "scripts": []
+            "scripts":[]
           },
           "configurations": {
             "production": {
@@ -88,10 +90,14 @@
               "projects/app/src/assets"
             ],
             "styles": [
+              "node_modules/bootstrap/dist/css/bootstrap.css",
               "projects/app/src/styles.css"
+              
             ],
-            "scripts": []
-          }
+            "scripts": [
+              "node_modules/bootstrap/dist/js/bootstrap.js"
+            ]
+          } 
         },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
