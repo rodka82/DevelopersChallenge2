@@ -14,14 +14,14 @@ namespace DeveloperChallenge.Application.Services
             Directory.CreateDirectory(targetFolder);
 
             var filePaths = new List<string>();
-            files.ForEach(async file =>
+            files.ForEach(file =>
             {
                 if (file.Length <= 0) return;
                 var fileName = $"{DateTime.Now.Ticks}{file.FileName}";
                 var filePath = Path.Combine(targetFolder, fileName);
                 using (var stream = new FileStream(filePath, FileMode.Create))
                 {
-                    await file.CopyToAsync(stream);
+                    file.CopyToAsync(stream);
                     filePaths.Add(filePath);
                 }
             });
