@@ -35,7 +35,7 @@ namespace DeveloperChallenge.Tests.Application
         {
             var bankTransactionRepositoryMock = new Mock<IBankTransactionRepository>();
             List<BankTransaction> mockedBankTransactions = GenerateMockedBankTransactions();
-            bankTransactionRepositoryMock.Setup(t => t.GetAll()).Returns(mockedBankTransactions);
+            bankTransactionRepositoryMock.Setup(t => t.GetAll()).Returns(mockedBankTransactions.AsQueryable());
             return bankTransactionRepositoryMock.Object;
         }
 
