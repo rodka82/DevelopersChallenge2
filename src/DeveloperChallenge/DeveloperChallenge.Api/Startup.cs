@@ -46,6 +46,14 @@ namespace DeveloperChallenge.Api
             services.AddScoped<IOFXParser, OFXParser>();
             services.AddScoped<DbContext, NiboContext>();
 
+            services.AddCors(options => options.AddPolicy("NiboPolicy", builder =>
+            {
+                builder.AllowAnyOrigin()
+                       .AllowAnyMethod()
+                       .AllowAnyHeader();
+            }));
+
+
             var config = new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<BankTransaction, BankTransactionDTO>();
@@ -70,9 +78,10 @@ namespace DeveloperChallenge.Api
             });
 
             app.UseRouting();
+            app.UseCors("NiboPolicy");
 
             app.UseEndpoints(endpoints => {
-                endpoints.MapControllers();
+                endpoints.MapControllers().RequireCors("NiboPolicy");
             });
         }
     }
